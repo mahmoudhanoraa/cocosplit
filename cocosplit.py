@@ -38,7 +38,7 @@ def main(args):
         images_with_annotations = funcy.lmap(lambda a: str(a['image_id'].split('\\')[-1]), annotations)
 
         if args.having_annotations:
-            images = funcy.lremove(lambda i: i['id'] not in images_with_annotations, images)
+            images = funcy.lremove(lambda i: str(i['id']).split('\\')[-1] not in images_with_annotations, images)
 
         x, y = train_test_split(images, train_size=args.split)
 
