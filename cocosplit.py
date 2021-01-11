@@ -40,6 +40,12 @@ def main(args):
 
         for annotation in annotations:
             annotation['image_id'] = annotation['image_id'].split('\\')[-1]
+            if annotation['category_id'] == 5:
+                annotation['category_id'] = 3
+            elif annotation['category_id'] == 6:
+                annotation['category_id'] = 1
+            elif annotation['category_id'] == 7:
+                annotation['category_id'] = 2
 
         images_with_annotations = funcy.lmap(lambda a: str(a['image_id'].split('\\')[-1]), annotations)
 
