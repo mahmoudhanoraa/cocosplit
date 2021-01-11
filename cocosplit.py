@@ -35,7 +35,7 @@ def main(args):
 
         number_of_images = len(images)
 
-        images_with_annotations = funcy.lmap(lambda a: int(a['image_id']), annotations)
+        images_with_annotations = funcy.lmap(lambda a: str(a['image_id']), annotations)
 
         if args.having_annotations:
             images = funcy.lremove(lambda i: i['id'] not in images_with_annotations, images)
