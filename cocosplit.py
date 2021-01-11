@@ -21,24 +21,31 @@ def save_coco(file, info, licenses, images, annotations, categories):
             'annotations': annotations, 'categories': categories}, coco, indent=2, sort_keys=True)
 
 def filter_annotations(annotations, images):
-    image_ids = funcy.lmap(lambda i: str(i['id']).split('\\')[-1], images)
-    return funcy.lfilter(lambda a: str(a['image_id']).split('\\')[-1] in image_ids, annotations)
+    image_ids = funcy.lmap(lambda i: i['id'], images)
+    return funcy.lfilter(lambda a: str(a['image_id'].split('\\')[-1]) in image_ids, annotations)
 
 def main(args):
     with open(args.annotations, 'rt', encoding='UTF-8') as annotations:
         coco = json.load(annotations)
-        info = "coco"
-        licenses = "coco"
+        info = 'coco'
+        licenses = 'coco'
         images = coco['images']
         annotations = coco['annotations']
         categories = coco['categories']
 
         number_of_images = len(images)
+        for image in images:
+            image['id'] = image['id'].split('\\')[-1]
+            image['file_name'] = image['file_name'].split('\\')[-1]
+
+        for annotation in annotations:
+            annotation['image_id'] = annotation['image_id'].split('\\')[-1]
 
         images_with_annotations = funcy.lmap(lambda a: str(a['image_id'].split('\\')[-1]), annotations)
 
         if args.having_annotations:
-            images = funcy.lremove(lambda i: str(i['id']).split('\\')[-1] not in images_with_annotations, images)
+            images = funcy.lremove(lambda i: i['id'] not in images_with_annotations, images)
+
 
         x, y = train_test_split(images, train_size=args.split)
 
