@@ -21,7 +21,7 @@ def save_coco(file, info, licenses, images, annotations, categories):
             'annotations': annotations, 'categories': categories}, coco, indent=2, sort_keys=True)
 
 def filter_annotations(annotations, images):
-    image_ids = funcy.lmap(lambda i: i['id'], images)
+    image_ids = funcy.lmap(lambda i: str(i['id']).split('\\')[-1], images)
     return funcy.lfilter(lambda a: str(a['image_id']).split('\\')[-1] in image_ids, annotations)
 
 def main(args):
