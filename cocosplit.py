@@ -39,7 +39,13 @@ def main(args):
             image['file_name'] = image['file_name'].split('\\')[-1]
 
         categories = categories[: -3]
-        print(categories)
+        new_cats = []
+        for cat in categories:
+            if cat['name'] == 'c' or cat['name'] == 't':
+                new_cats.append(cat)
+        categories = new_cats
+
+        new_annotaions = []
         for annotation in annotations:
             annotation['image_id'] = annotation['image_id'].split('\\')[-1]
             if annotation['category_id'] == 5:
@@ -49,6 +55,9 @@ def main(args):
             elif annotation['category_id'] == 7:
                 annotation['category_id'] = 2
 
+            if annotation['category_id'] == 1 or annotation['category_id'] == 3:
+                new_annotaions.append(annotation)
+        annotations = new_annotaions
         images_with_annotations = funcy.lmap(lambda a: str(a['image_id'].split('\\')[-1]), annotations)
 
         if args.having_annotations:
