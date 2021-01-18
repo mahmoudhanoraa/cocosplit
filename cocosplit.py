@@ -38,6 +38,8 @@ def main(args):
             image['id'] = image['id'].split('\\')[-1]
             image['file_name'] = image['file_name'].split('\\')[-1]
 
+        categories = categories[: -3]
+        print(categories)
         for annotation in annotations:
             annotation['image_id'] = annotation['image_id'].split('\\')[-1]
             if annotation['category_id'] == 5:
